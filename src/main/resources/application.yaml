@@ -1,0 +1,35 @@
+logging:
+  pattern:
+    file: '%d %p %c{1.} [%t] %m%n'
+    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n'
+  file: app.log
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  datasource:
+    driverClassName: org.h2.Driver
+    password: ''
+    username: sa
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      path: /h2-ui
+      enabled: 'true'
+
+springdoc:
+  swagger-ui:
+    path: /apidoc
+    displayRequestDuration: true
+    disable-swagger-default-url: true
+    csrf:
+      enabled: true
+    operationsSorter: method #For sorting endpoints by http methods
+    tagsSorter: alpha #For sorting tags alphabetically
+  api-docs:
+    path: /api

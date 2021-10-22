@@ -7,6 +7,9 @@ import com.eylmz.micro.cleanarchitecture.mapper.UserMapper;
 import com.eylmz.micro.cleanarchitecture.service.IUserService;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserInputDTO;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserOutputDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,11 @@ public class UserController {
     private IUserService userService;
     private UserMapper userMapper;
 
+    @Operation(summary = "Create user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully created a user"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PostMapping(path = "")
     public ResponseEntity<UserResponse> addUser(@RequestBody UserRequest userRequest) {
         UserInputDTO userInputDTO = userMapper.mapRequestToInputDTO(userRequest);
