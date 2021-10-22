@@ -33,3 +33,9 @@ springdoc:
     tagsSorter: alpha #For sorting tags alphabetically
   api-docs:
     path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
