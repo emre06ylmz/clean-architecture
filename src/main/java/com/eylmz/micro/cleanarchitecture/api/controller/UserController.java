@@ -1,34 +1,35 @@
 package com.eylmz.micro.cleanarchitecture.api.controller;
 
+import com.eylmz.micro.cleanarchitecture.CleanArchitectureApplication;
 import com.eylmz.micro.cleanarchitecture.api.request.UserRequest;
 import com.eylmz.micro.cleanarchitecture.api.response.UserResponse;
 import com.eylmz.micro.cleanarchitecture.mapper.UserMapper;
 import com.eylmz.micro.cleanarchitecture.service.IUserService;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserInputDTO;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserOutputDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/users")
 public class UserController {
 
     private IUserService userService;
     private UserMapper userMapper;
 
-    public UserController(IUserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
-    }
-
     @PostMapping(path = "")
     public ResponseEntity<UserResponse> addUser(@RequestBody UserRequest userRequest) {
         UserInputDTO userInputDTO = userMapper.mapRequestToInputDTO(userRequest);
         UserOutputDTO userOutputDTO = userService.addUser(userInputDTO);
         UserResponse userResponse = userMapper.mapOutputDTOToResponse(userOutputDTO);
+        log.info("new user added to system.");
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 

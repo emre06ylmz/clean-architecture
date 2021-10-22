@@ -6,29 +6,24 @@ import com.eylmz.micro.cleanarchitecture.mapper.UserMapper;
 import com.eylmz.micro.cleanarchitecture.repository.UserRepository;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserInputDTO;
 import com.eylmz.micro.cleanarchitecture.service.dto.UserOutputDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService{
 
-    private UserRepository userRepository;
-
-    private UserMapper userMapper;
-
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper){
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public UserOutputDTO addUser(UserInputDTO userInputDTO) {
         UserEntity userEntity = userMapper.mapInputDTOToEntity(userInputDTO);
         UserEntity insertedUserEntity = userRepository.save(userEntity);
-        UserOutputDTO userOutputDTO = userMapper.mapEntityToUserOutputDTO(insertedUserEntity);
-        return userOutputDTO;
+        return userMapper.mapEntityToUserOutputDTO(insertedUserEntity);
     }
 
     @Override
@@ -41,8 +36,7 @@ public class UserServiceImpl implements IUserService{
         userEntity.setId(id);
 
         UserEntity updatedUserEntity = userRepository.save(userEntity);
-        UserOutputDTO userOutputDTO = userMapper.mapEntityToUserOutputDTO(updatedUserEntity);
-        return userOutputDTO;
+        return userMapper.mapEntityToUserOutputDTO(updatedUserEntity);
     }
 
     @Override
